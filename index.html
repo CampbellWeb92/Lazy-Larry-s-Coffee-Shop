@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@500;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <title>Lazy Larry's Coffee Shop</title>
+
+  <style>
+    :root {
+      --blue: #0b5fa5;
+      --blue-soft: #1378c8;
+      --yellow: #f6c431;
+      --yellow-soft: #ffe08a;
+      --green: #2f6b3f;
+      --green-soft: #4b8f5b;
+      --brown: #5a321c;
+      --brown-soft: #8a542f;
+      --black: #111111;
+      --cream: #fff7e8;
+      --white: #ffffff;
+      --shadow: 0 18px 45px rgba(17, 17, 17, 0.18);
+      --glow-yellow: 0 0 18px rgba(246, 196, 49, 0.65);
+      --glow-blue: 0 0 22px rgba(11, 95, 165, 0.45);
+      --radius: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      color: var(--black);
+      line-height: 1.6;
+      background-image:
+        linear-gradient(rgba(255, 247, 232, 0.88), rgba(255, 247, 232, 0.88)),
+        url("images/bg.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(90, 50, 28, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(90, 50, 28, 0.04) 1px, transparent 1px);
+      background-size: 42px 42px;
+      z-index: -1;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    header {
+      position: relative;
+      color: white;
+      text-align: center;
+      padding: clamp(48px, 8vw, 75px) 18px clamp(60px, 9vw, 85px);
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(17, 17, 17, 0.74), rgba(90, 50, 28, 0.86)),
+        radial-gradient(circle at 30% 20%, rgba(246, 196, 49, 0.32), transparent 28%),
+        linear-gradient(135deg, var(--black), var(--brown));
+    }
+
+    header::before,
+    header::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: 0.25;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    header::before {
+      top: -95px;
+      left: -70px;
+      background: var(--yellow);
+    }
+
+    header::after {
+      right: -95px;
+      bottom: -120px;
+      background: var(--blue);
+      animation-delay: 1.5s;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 900ms ease both;
+    }
+
+    .logo {
+      width: clamp(135px, 38vw, 190px);
+      max-width: 80%;
+      border-radius: 50%;
+      margin-bottom: 22px;
+      border: 5px solid rgba(246, 196, 49, 0.85);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.08), var(--glow-yellow), var(--shadow);
+      transition: transform 350ms ease, box-shadow 350ms ease;
+      animation: logoPulse 3.5s ease-in-out infinite;
+    }
+
+    .logo:hover {
+      transform: scale(1.06) rotate(-2deg);
+      box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.1), 0 0 35px rgba(246, 196, 49, 0.9);
+    }
+
+    header h1 {
+  font-family: "Luckiest Guy", cursive;
+  color: var(--yellow);
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: 2px;
+  text-shadow:
+    3px 3px 0 var(--brown),
+    0 0 18px rgba(246, 196, 49, 0.65);
+}
+
+h2 {
+      transition: transform 0.3s ease, text-shadow 0.3s ease;
+  font-family: "Chewy", cursive;
+  text-align: center;
+  color: var(--green);
+  margin-bottom: 20px;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: 1px;
+  text-shadow:
+    2px 2px 0 rgba(246, 196, 49, 0.45),
+    0 4px 14px rgba(47, 107, 63, 0.18);
+}
+
+h2:hover {
+  transform: scale(1.04) rotate(-1deg);
+  text-shadow:
+    2px 2px 0 var(--yellow),
+    0 0 20px rgba(246, 196, 49, 0.75);
+}
+
+.contact-card h3,
+.highlight strong,
+.tagline,
+nav a,
+.btn {
+  font-family: "Fredoka", sans-serif;
+}
+
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 22px;
+      padding: 10px 18px;
+      border: 1px solid rgba(246, 196, 49, 0.45);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.05);
+      color: var(--yellow-soft);
+      font-weight: 700;
+      max-width: 100%;
+    }
+
+    nav {
+      background: rgba(11, 95, 165, 0.92);
+      padding: 12px 14px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 10px 25px rgba(17, 17, 17, 0.18);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 16px;
+      border-radius: 999px;
+      transition: transform 250ms ease, background 250ms ease, color 250ms ease, box-shadow 250ms ease;
+    }
+
+    nav a:hover {
+      color: var(--black);
+      background: var(--yellow);
+      transform: translateY(-3px);
+      box-shadow: var(--glow-yellow);
+    }
+
+    section {
+      width: min(1120px, calc(100% - 32px));
+      padding: clamp(45px, 8vw, 70px) 0;
+      margin: auto;
+    }
+
+    .section-card {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(90, 50, 28, 0.12);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--green);
+      margin-bottom: 20px;
+      font-size: clamp(1.75rem, 7vw, 2.8rem);
+      line-height: 1.15;
+      text-shadow: 0 4px 14px rgba(47, 107, 63, 0.14);
+    }
+
+    .section-intro {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 35px;
+      color: rgba(17, 17, 17, 0.75);
+      font-size: clamp(0.95rem, 3vw, 1.05rem);
+    }
+
+    .hero {
+      text-align: center;
+      margin-top: -35px;
+      padding: clamp(32px, 7vw, 55px) clamp(18px, 5vw, 28px);
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: auto;
+      font-size: clamp(1rem, 3.3vw, 1.12rem);
+    }
+
+    .highlight-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 35px;
+    }
+
+    .highlight {
+      padding: 22px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 247, 232, 0.72));
+      border: 1px solid rgba(246, 196, 49, 0.28);
+      box-shadow: 0 12px 28px rgba(17, 17, 17, 0.09);
+      transition: transform 300ms ease, box-shadow 300ms ease, border 300ms ease;
+    }
+
+    .highlight:hover {
+      transform: translateY(-8px);
+      border-color: var(--yellow);
+      box-shadow: var(--glow-yellow), 0 18px 35px rgba(17, 17, 17, 0.15);
+    }
+
+    .highlight strong {
+      display: block;
+      color: var(--brown);
+      font-size: 1.08rem;
+      margin-bottom: 6px;
+    }
+
+    .menu-image-wrap {
+      position: relative;
+      max-width: 880px;
+      margin: 25px auto 0;
+      border-radius: 28px;
+      padding: 10px;
+      background: linear-gradient(135deg, var(--yellow), var(--green), var(--blue), var(--brown));
+      box-shadow: var(--shadow);
+      transition: transform 350ms ease, box-shadow 350ms ease;
+    }
+
+    .menu-image-wrap:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: var(--glow-blue), var(--glow-yellow), 0 24px 55px rgba(17, 17, 17, 0.24);
+    }
+
+    .menu-image {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      background: var(--cream);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .gallery figure {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      box-shadow: 0 12px 28px rgba(17, 17, 17, 0.16);
+      border: 4px solid var(--yellow);
+      background: var(--black);
+      transition: transform 320ms ease, box-shadow 320ms ease, border-color 320ms ease;
+    }
+
+    .gallery figure::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(17, 17, 17, 0.72));
+      opacity: 0;
+      transition: opacity 320ms ease;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      display: block;
+      transition: transform 550ms ease, filter 320ms ease;
+    }
+
+    .gallery figcaption {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 15px;
+      color: var(--white);
+      font-weight: 800;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 320ms ease, transform 320ms ease;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .gallery figure:hover {
+      transform: translateY(-10px);
+      border-color: var(--blue-soft);
+      box-shadow: var(--glow-blue), 0 20px 38px rgba(17, 17, 17, 0.24);
+    }
+
+    .gallery figure:hover img {
+      transform: scale(1.1);
+      filter: saturate(1.12) contrast(1.05);
+    }
+
+    .gallery figure:hover::after,
+    .gallery figure:hover figcaption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .contact-box {
+      background:
+        radial-gradient(circle at top left, rgba(246, 196, 49, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(17, 17, 17, 0.96), rgba(90, 50, 28, 0.96));
+      color: white;
+      border-radius: 28px;
+      padding: clamp(24px, 5vw, 35px);
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(246, 196, 49, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-box::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(120deg, transparent, rgba(246, 196, 49, 0.22), transparent);
+      transform: translateX(-100%);
+      animation: shine 5s ease-in-out infinite;
+    }
+
+    .contact-box > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .contact-card {
+      min-height: 180px;
+      padding: 28px 20px;
+      border-radius: 24px;
+      text-decoration: none;
+      color: white;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(246, 196, 49, 0.28);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(246, 196, 49, 0.22), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .contact-card:hover::before {
+      opacity: 1;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      border-color: var(--yellow);
+      box-shadow:
+        0 0 22px rgba(246, 196, 49, 0.55),
+        0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .contact-icon {
+      width: 58px;
+      height: 58px;
+      margin-bottom: 14px;
+      border-radius: 18px;
+      background: var(--yellow);
+      color: var(--black);
+      display: grid;
+      place-items: center;
+      font-size: 1.7rem;
+      box-shadow: 0 0 18px rgba(246, 196, 49, 0.65);
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-card h3 {
+      color: var(--yellow);
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-card p {
+      color: #fff7e8;
+      font-size: 0.98rem;
+      position: relative;
+      z-index: 1;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      background: linear-gradient(135deg, var(--brown), var(--black));
+      color: white;
+      text-align: center;
+      padding: 26px 20px;
+      border-top: 3px solid var(--yellow);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(22px) scale(1.08); }
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.08), 0 0 18px rgba(246, 196, 49, 0.62), var(--shadow); }
+      50% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.1), 0 0 32px rgba(246, 196, 49, 0.86), var(--shadow); }
+    }
+
+    @keyframes shine {
+      0%, 55%, 100% { transform: translateX(-100%); }
+      75% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 900px) {
+      .highlight-row {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      section {
+        width: min(100% - 24px, 1120px);
+      }
+
+      header::before,
+      header::after {
+        width: 190px;
+        height: 190px;
+      }
+
+      nav {
+        padding: 10px 8px;
+        gap: 6px;
+      }
+
+      nav a {
+        flex: 1 1 calc(50% - 8px);
+        padding: 9px 8px;
+        font-size: 0.92rem;
+      }
+
+      .hero {
+        margin-top: -22px;
+      }
+
+      .menu-image-wrap {
+        padding: 6px;
+        border-radius: 20px;
+      }
+
+      .menu-image {
+        border-radius: 15px;
+      }
+
+      .gallery {
+        gap: 14px;
+      }
+
+      .gallery img {
+        height: 180px;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .contact-card {
+        min-height: 150px;
+        padding: 22px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      section {
+        width: min(100% - 18px, 1120px);
+        padding: 38px 0;
+      }
+
+      header {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .tagline {
+        width: 100%;
+        font-size: 0.92rem;
+      }
+
+      nav a {
+        font-size: 0.88rem;
+      }
+
+      .section-card,
+      .contact-box {
+        border-radius: 20px;
+      }
+
+      .highlight {
+        padding: 18px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery img {
+        height: 220px;
+      }
+
+      .gallery figcaption,
+      .gallery figure::after {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .contact-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.45rem;
+      }
+
+      .contact-card h3 {
+        font-size: 1.12rem;
+      }
+
+      .contact-card p {
+        font-size: 0.92rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      nav a {
+        flex-basis: 100%;
+      }
+
+      .gallery img {
+        height: 190px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header id="home">
+    <div class="header-content">
+      <img src="images/logo.png" alt="Lazy Larry's Logo" class="logo" />
+      <h1>Lazy Larry's Coffee Shop</h1>
+      <p>Good Coffee. Great Vibes. Freshly Baked Cookies.</p>
+      <div class="tagline">☕ Slow down. Sip better.</div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section class="hero section-card reveal">
+    <h2>Welcome to Lazy Larry's</h2>
+    <p>
+      Relax, slow down, and enjoy quality coffee with freshly baked cookies.
+      From smooth lattes and cappuccinos to iced mocha and homemade cookies,
+      Lazy Larry's is your cozy coffee stop.
+    </p>
+
+    <div class="highlight-row">
+      <div class="highlight">
+        <strong>Freshly Brewed</strong>
+        Smooth coffee made for every mood.
+      </div>
+      <div class="highlight">
+        <strong>Cozy Atmosphere</strong>
+        A warm little stop for calm moments.
+      </div>
+      <div class="highlight">
+        <strong>Homemade Treats</strong>
+        Cookies packed in fresh 200g bags.
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="reveal">
+    <h2>Our Menu</h2>
+    <p class="section-intro">Choose from warm classics, iced favourites, and freshly baked cookie bags.</p>
+    <div class="menu-image-wrap">
+      <img src="images/menu.png" alt="Lazy Larry's Coffee Shop Menu" class="menu-image" />
+    </div>
+  </section>
+
+  <section id="gallery" class="reveal">
+    <h2>Coffee & Cookies</h2>
+    <p class="section-intro">Hover over each item for a soft glow and smooth zoom effect.</p>
+
+    <div class="gallery">
+      <figure><img src="images/latte.png" alt="Latte Coffee" /><figcaption>Latte Coffee</figcaption></figure>
+      <figure><img src="images/cappuccino.png" alt="Cappuccino" /><figcaption>Cappuccino</figcaption></figure>
+      <figure><img src="images/americano.png" alt="Americano Coffee" /><figcaption>Americano Coffee</figcaption></figure>
+      <figure><img src="images/espresso.png" alt="Espresso" /><figcaption>Espresso</figcaption></figure>
+      <figure><img src="images/flat-white.png" alt="Flat White" /><figcaption>Flat White</figcaption></figure>
+      <figure><img src="images/mocha.png" alt="Mocha Coffee" /><figcaption>Mocha Coffee</figcaption></figure>
+      <figure><img src="images/iced-coffee.png" alt="Iced Coffee" /><figcaption>Iced Coffee</figcaption></figure>
+      <figure><img src="images/mocha-iced-coffee.png" alt="Mocha Iced Coffee" /><figcaption>Mocha Iced Coffee</figcaption></figure>
+      <figure><img src="images/ginger-cookies.png" alt="Ginger Cookies" /><figcaption>Ginger Cookies</figcaption></figure>
+      <figure><img src="images/chocolate-chip-cookies.png" alt="Chocolate Chip Cookies" /><figcaption>Chocolate Chip Cookies</figcaption></figure>
+      <figure><img src="images/shortbread-cookies.png" alt="Shortbread Cookies" /><figcaption>Shortbread Cookies</figcaption></figure>
+      <figure><img src="images/oatmeal-cookies.png" alt="Oatmeal Cookies" /><figcaption>Oatmeal Cookies</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="contact" class="reveal">
+  <h2>Contact Us</h2>
+
+  <div class="contact-box">
+
+    <div class="contact-grid">
+
+      <a href="tel:0821234567" class="contact-card">
+        <span class="contact-icon">📞</span>
+        <h3>Call</h3>
+        <p>082 123 4567</p>
+      </a>
+
+      <a href="https://wa.me/270821234567" target="_blank" rel="noopener" class="contact-card">
+        <span class="contact-icon">💬</span>
+        <h3>WhatsApp</h3>
+        <p>082 123 4567</p>
+      </a>
+
+      <a href="mailto:info@lazylLarrys.co.za" class="contact-card">
+        <span class="contact-icon">✉️</span>
+        <h3>Email</h3>
+        <p>info@lazylLarrys.co.za</p>
+      </a>
+
+      <a href="https://www.google.com/maps/search/?api=1&query=1+Sloth+Ave,+Green+Forest,+World"
+         target="_blank"
+         rel="noopener"
+         class="contact-card">
+        <span class="contact-icon">📍</span>
+        <h3>Address</h3>
+        <p>1 Sloth Ave, Green Forest, World.</p>
+      </a>
+
+      <a href="https://instagram.com/lazyl_Larrys" target="_blank" rel="noopener" class="contact-card">
+        <span class="contact-icon">📸</span>
+        <h3>Instagram</h3>
+        <p>@lazyl_Larrys</p>
+      </a>
+
+      <a href="https://facebook.com/lazylLarrys" target="_blank" rel="noopener" class="contact-card">
+        <span class="contact-icon">📘</span>
+        <h3>Facebook</h3>
+        <p>Lazy Larry's Coffee Shop</p>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
+  <footer>
+    <p>© 2026 Lazy Larry's Coffee Shop. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealOnScroll = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealOnScroll.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
+
+    revealElements.forEach((element) => revealOnScroll.observe(element));
+  </script>
+
+</body>
+</html>
