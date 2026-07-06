@@ -814,23 +814,24 @@ nav a,
   <footer>
     <p>© 2026 Lazy Larry's Coffee Shop. All rights reserved.</p>
   </footer>
+
+  <img id="larry" src="images/wave.png" alt="Larry" class="larry">
+
 <script>
 
 const larry = document.getElementById("larry");
 
 const actions = [
-    "images/larry-wave.png",
-    "images/larry-speech.png",
-    "images/larry-walk.png",
-]; 
-//<-- add later 
-// "images/larry-cookie.png",
-//  "images/larry-popup.png",
-//"images/larry-thumbsup.png",
-//"images/larry-laugh.png",
-// "images/larry-goodbye.png"
-// -->//
+    "images/wave.png",
+    "images/coffee.png",
+    "images/walk.png",
+    "images/cookie.png",
+    "images/popup.png",
+    "images/thumbsup.png",
+    "images/laugh.png",
+    "images/dance.png",
 
+];
 let current = 0;
 
 setInterval(() => {
@@ -851,7 +852,7 @@ setInterval(() => {
 
     },600);
 
-},10000);
+},5000);
 
     const revealElements = document.querySelectorAll('.reveal');
 
@@ -868,8 +869,5 @@ setInterval(() => {
 
     revealElements.forEach((element) => revealOnScroll.observe(element));
   </script>
-
-<img id="larry" src="images/wave.png" alt="Larry" class="larry">
-
 </body>
 </html>
