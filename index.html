@@ -482,6 +482,22 @@ nav a,
       overflow-wrap: anywhere;
     }
 
+    .larry {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 500px;
+    z-index: 9999;
+    transition: opacity .6s ease;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-15px);}
+    100% {transform: translateY(0);}
+}
+
     footer {
       background: linear-gradient(135deg, var(--brown), var(--black));
       color: white;
@@ -798,8 +814,45 @@ nav a,
   <footer>
     <p>© 2026 Lazy Larry's Coffee Shop. All rights reserved.</p>
   </footer>
+<script>
 
-  <script>
+const larry = document.getElementById("larry");
+
+const actions = [
+    "images/larry-wave.png",
+    "images/larry-speech.png",
+    "images/larry-walk.png",
+]; 
+//<-- add later 
+// "images/larry-cookie.png",
+//  "images/larry-popup.png",
+//"images/larry-thumbsup.png",
+//"images/larry-laugh.png",
+// "images/larry-goodbye.png"
+// -->//
+
+let current = 0;
+
+setInterval(() => {
+
+    larry.style.opacity = 0;
+
+    setTimeout(() => {
+
+        current++;
+
+        if(current >= actions.length){
+            current = 0;
+        }
+
+        larry.src = actions[current];
+
+        larry.style.opacity = 1;
+
+    },600);
+
+},10000);
+
     const revealElements = document.querySelectorAll('.reveal');
 
     const revealOnScroll = new IntersectionObserver((entries) => {
@@ -815,6 +868,8 @@ nav a,
 
     revealElements.forEach((element) => revealOnScroll.observe(element));
   </script>
+
+<img id="larry" src="images/wave.png" alt="Larry" class="larry">
 
 </body>
 </html>
